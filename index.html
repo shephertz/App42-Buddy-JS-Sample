@@ -1,0 +1,871 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/jQueryMobile.css" />
+        <link rel="stylesheet" href="css/profilePic.css" />
+        <link rel="stylesheet" href="css/galleryo.css" />
+        <link rel="stylesheet" href="css/popup.css" />
+        <link rel="stylesheet" href="css/game.css" />
+        <script src="js/App42-all-1.6.js"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+        <script src="js/buddy.js"></script>
+        <script src="js/profilePic.js"></script>
+        <script src="js/manageBuddies.js"></script>
+        <script src="js/crossXsession.js"></script>
+        <script src="js/popup.js"></script>
+        <script src="js/sharing.js"></script>
+        <script src="js/game.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                App42.initialize("YOUR_API_KEY","YOUR_SECRET_KEY"); // withAcl
+                 
+                var buddyLoggedInNameViaRegister = $.session.get('loggedInName');
+                var buddyLoggedInNameViaLogin = $.session.get('loggedInNameViaLogin');
+                
+                if (buddyLoggedInNameViaRegister == null || buddyLoggedInNameViaRegister == "")
+                {
+                
+                }else{
+                    topRankers();
+                    getAllGroupsWithTopRankers();
+                    getAllBuddyGroupsForSharingNote();
+                    getAllBuddyGroupsForSharingScore();
+                    getAllBuddiesForSharingScore();
+                    friendProfile();
+                    getAllBuddyGroups();
+                    allAppUsers();
+                    getAllBuddies();
+                    
+                    getBuddy();
+                    
+                    getAllGroupsWithBuddies();
+                    getAllphotos();
+                    getAllNotifications();
+                    getRequest();
+                    gameInit();
+                    if(!window.navigator.standalone){
+                    }
+                    if(localStorage.topScore==undefined){
+                        localStorage.topScore=0;	
+                    }
+                }
+                
+                if( buddyLoggedInNameViaLogin == null || buddyLoggedInNameViaLogin == "")
+                {
+                        
+                }else{
+                    topRankers();
+                    getAllGroupsWithTopRankers();
+                    getAllBuddyGroupsForSharingNote();
+                    getAllBuddyGroupsForSharingScore();
+                    getAllBuddiesForSharingScore();
+                    friendProfile();
+                    getAllBuddyGroups();
+                    allAppUsers();
+                    getAllBuddies();
+                   
+                    getBuddy();
+                    
+                    getAllGroupsWithBuddies();
+                    getAllphotos();
+                    getAllNotifications();
+                    getRequest();
+                    gameInit();
+                    if(!window.navigator.standalone){
+                    }
+                    if(localStorage.topScore==undefined){
+                        localStorage.topScore=0;	
+                    }
+                }
+            });
+       
+        </script>
+        <style>
+            #preview {
+                width: 80%;
+                max-width: 300px;
+            }
+            #preview img {
+                width: 100%;
+            }
+            .ui-field-contain input.ui-input-text, .ui-field-contain textarea.ui-input-text, .ui-field-contain .ui-input-search, .ui-field-contain div.ui-input-text{ color:#484848!important;}
+            .hiddenfile {
+                width: 0px;
+                height: 0px;
+                overflow: hidden;
+            }
+            .page .header .ui-input-search {
+                margin-right: 90px;
+            }
+            #tweetPageContentn {
+                font-family:Helvetica, Arial, sans-serif;
+                font-size:14px;
+                color:#fff;
+            }
+            .select {
+                padding-left:15px;
+                padding-bottom:3px;
+                padding-top:5px;
+                display:block;
+                clear:both;
+            }
+            .ui-select {
+                width:14%;
+                display:inline-block;
+                margin-left:auto;
+                margin-right:auto
+            }
+            .ui-br {
+                border-color:#828282;
+                border-color:rgba(130, 130, 130, .3);
+                border-style:solid;
+                margin-left:auto;
+                margin-right:auto;
+                text-align:center!important
+            }
+            .label.ui-input-text {
+                color:#fff;
+            }
+            .ui-hide-label input.ui-input-text, .ui-hide-label textarea.ui-input-text, .ui-hide-label .ui-input-search, .ui-hide-label div.ui-input-text, .ui-input-search input.ui-input-text, div.ui-input-text input.ui-input-text {
+                color: #FFFFFF !important;
+                width: 100%;
+            }
+            #notificationBar {
+                color:#fff;
+            }
+            #notificationBar div {
+                color:#fff;
+            }
+            .ui-body-c, .ui-overlay-c {
+                color:#fff;
+            }
+            #btnBtn1 {
+                width:20%;
+                margin-left:auto;
+                margin-right:auto;
+            }
+            hr {
+                border:1px solid #FFFFFF!important;
+                border-style:inset!important
+            }
+
+            div.fileinputs {
+                position: relative;
+            }
+
+            div.fakefile {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                z-index: 1;
+            }
+
+            input.file {
+                position: relative;
+                text-align: right;
+                -moz-opacity:0 ;
+                filter:alpha(opacity: 0);
+                opacity: 0;
+                z-index: 2;
+            }
+
+            .ui-popup .ui-field-contain .ui-btn.ui-submit, .ui-popup .ui-field-contain .ui-controlgroup-controls, .ui-popup .ui-field-contain .ui-select, .ui-popup .ui-field-contain input.ui-input-text, .ui-popup .ui-field-contain textarea.ui-input-text, .ui-popup .ui-field-contain .ui-input-search {width: 100%; display: block; color:#000000!important; }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="spinner2"> <img src="loaders/spinner.gif" id ="pageLoader" style= "display:none;"> </div>
+        <div class="spinner3"> <img src="loaders/spinnerDefault.gif" id ="defaultLoader" style= "display:none;"> </div>
+        <!-------------------------------------------------------------- /HOME PAGE --------------------------------------------------------------------------->
+        <div data-role="page" class="jqm-demos jqm-demos-home" id="home" data-add-back-btn="true" data-back-btn-text="Back">
+            <div data-role="header" class="jqm-header ui-header ui-bar-a" role="banner">
+                <h1>App42 Buddy Management, Sample App</h1>
+            </div>
+            <div data-role="content" id="contents">
+                <h3> Buddy Management Sample Application... Using App42 cloud API's.... </h3>
+                <a href="#startPage" data-role="button" data-inline="true" data-theme="b">&nbsp;Get Started&nbsp;</a> </div>
+            <div data-role="footer" data-position="fixed">
+                <h3>Copyright &copy; 2013 ShepHertz Technologies Pvt Ltd. All rights reserved.</h3>
+            </div>
+            <!-- /footer -->
+        </div>
+        <!-------------------------------------------------------------- /START PAGE --------------------------------------------------------------------------->
+        <div data-role="page" id ="startPage">
+            <div data-role="header" data-theme="a"> <a href="#registration"  class="ui-btn-right">Sign Up</a>
+                <h1>LogIn</h1>
+            </div>
+            <br>
+            <div data-role="content">
+                <label for="text-3">User Name</label>
+                <span id="userNameBlank"></span>
+                <input type="text" data-clear-btn="true" placeholder="User Name..." name="text-3" id="loginName" value="">
+                <br>
+                <label for="password-2">User Password: </label>
+                <span id="passwordBlank"></span>
+                <input type="password" data-clear-btn="true" placeholder="Password..." name="password-2" id="loginPwd" value="" autocomplete="off">
+                <a href="javascript:void(0);" data-role="button"   data-theme="e" id="loginBtn" onclick ="logIn();">Log In</a> <br>
+                <div>
+                    <p style="text-align:center;"><span id="invalidUser"></span></p>
+                </div>
+                <br>
+            </div>
+            <div data-role="footer" data-position="fixed">
+                <h6>Copyright &copy; 2013 ShepHertz Technologies Pvt Ltd. All rights reserved.</h6>
+            </div>
+        </div>
+        <!-------------------------------------------------------------- /REGISTRATION PAGE --------------------------------------------------------------------------->
+        <div data-role="page" id="registration" data-add-back-btn="true" data-back-btn-text="Back">
+            <div data-role="header" data-theme="a"> <a href="#startPage"  class="ui-btn-right">LogIn</a>
+                <h1>Registration</h1>
+            </div>
+            <div id="unAuthorized" > </div>
+            <br>
+            <br>
+            <div data-role="content">
+                <div data-role="fieldcontain">
+                    <label for="fName">First Name:</label>
+                    <input type="text" data-clear-btn="true" data-mini="true" name="firstName" id="fName" value="">
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="lName">Last Name:</label>
+                    <input type="text" data-clear-btn="true" data-mini="true" name="lastName" id="lName" value="">
+                </div>
+                <label for="text-3">User Name</label>
+                <span id="userNameBlank1"></span>
+                <input type="text" data-clear-btn="true" placeholder="User Name..." name="text-3" id="userName" value="">
+                <label for="email-2">User Email</label>
+                <span id="emailBlank1"></span>
+                <input type="email" data-clear-btn="true" placeholder="Email Id..." name="email-2" id="userEmail" value="">
+                <label for="password-2">User Password: </label>
+                <span id="passwordBlank1"></span>
+                <input type="password" data-clear-btn="true" placeholder="Password..." name="password-2" id="userPwd" value="" autocomplete="off">
+                <a href="javascript:void(0);" data-role="button"  data-theme="e" id="registrationBtn" onClick="register();">Create User</a> </div>
+            <div data-role="footer" data-position="fixed">
+                <h3>Copyright &copy; 2013 ShepHertz Technologies Pvt Ltd. All rights reserved.</h3>
+            </div>
+            <!-- /footer -->
+        </div>
+        <!-------------------------------------------------------------- /EDIT PROFILE PAGE --------------------------------------------------------------------------->
+        <div data-role="page" id="editProfile" data-add-back-btn="true" data-back-btn-text="Back">
+            <div data-role="header" data-theme="a"> 
+                <h1>Edit</h1>
+                <a href="#userAccount1" data-rel="popup"  data-icon="arrow-d" data-transition="slide" data-position-to="window" data-role="button"  class="ui-btn-right">Account</a>
+            </div>
+            <div data-role="popup" id="userAccount1" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+                <span class="welcomeTxtH2"> Using App As :-</span>
+                <h3 class="emailPanel"><span id="loggedInBuddyNamePanel"></span></h3>
+                <span id="loggedInBuddyEmailPanel" class="adminPanel"></span>
+                <a href="#profile" data-icon="home" data-mini="true" data-transition="slide"  data-role="button" data-theme="a">Home</a>
+                <a href="#notificationsPage" data-icon="delete" data-mini="true"  data-role="button" data-theme="a">Notifications</a>
+                <a href="#editProfile" data-icon="delete" data-mini="true"  data-role="button" data-theme="a">Manage Account</a>
+                <a href="#viewAllFriends" data-icon="delete" data-mini="true"  data-role="button" data-theme="a" >Friends</a>
+                <a href="#" data-icon="delete" data-mini="true"  data-role="button" data-theme="a" onClick="backToGroups();">Groups</a>
+                <a href="#getRequestPage" data-icon="delete" data-mini="true"  data-role="button" data-theme="a">Friend Requests</a>
+                <a href="#viewAllPhotos" data-icon="delete" data-mini="true"  data-role="button" data-theme="a">Photos</a>
+                <a href="javascript:void(0);" data-icon="delete" data-mini="true"  data-role="button" data-theme="a" onclick="logOut();">Logout</a>
+            </div>
+            <div id="unAuthorized1" > </div>
+            <br>
+            <br>
+            <div data-role="content">
+                <label for="buddyFirstName" data-inline= "true">Name</label>
+                <input type="text" data-clear-btn="true"  name="buddyFirstName" id="buddyFirstName" data-inline= "true">
+                <label for="buddyLastName" data-inline= "true"></label>
+                <input type="text" data-clear-btn="true"  name="buddyLastName" id="buddyLastName" data-inline= "true">
+                <label for="mobNo" data-inline= "true">Mobile No.</label>
+                <input type="text" data-clear-btn="true" placeholder="Mobile No. ..." name="mobNo" id="mobNo" data-inline= "true">
+                <label for="city" data-inline= "true">City</label>
+                <input type="text" data-clear-btn="true" placeholder="City..." name="city" id="city" data-inline= "true">
+                <label for="sex" data-inline= "true" style="color:#fff;">You Are:</label>
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <input type="radio" name="radioSex" id="radio-choice-v-6a" value="Male">
+                    <label for="radio-choice-v-6a">Male</label>
+                    <input type="radio" name="radioSex" id="radio-choice-v-6b" value="Female">
+                    <label for="radio-choice-v-6b">Female</label>
+                </fieldset>
+                <div style="clear:both; width:100%; height:10px;"></div>
+                <label for="sex" data-inline= "true" style="color:#fff;">Change Profile Pic:</label>
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+
+                    <input type="file" name="filePath" id="filePath" class ="input_box" onFocus="if(this.value=='File Path'){this.value=''};" onBlur="if(this.value==''){this.value='File Path'};" value="File Path">
+                    <button id="chooseFile" data-theme="a" onClick="uploadProfilePic();">Update Pic</button>
+                    <!--</div>-->
+                </fieldset>
+                <div data-role="popup" id="successUploadedProfilePic" data-transition="pop" data-position-to="origin" class="ui-content" data-theme="a">
+                    <p>Your Profile Picture is SuccessFully Updated.</p>
+                </div>
+                <a href="javascript:void(0);" data-role="button"  data-theme="e" id="editProfileBtn" onClick="saveProfile();">Save</a> <a href="#profile" data-role="button"  data-theme="e" id="editProfileBtn1">Skip >></a> </div>
+            <div data-role="footer" data-position="fixed">
+                <h3>Copyright &copy; 2013 ShepHertz Technologies Pvt Ltd. All rights reserved.</h3>
+            </div>
+            <!-- /footer -->
+        </div>
+        <!-------------------------------------------------------------- /PROFILE PAGE --------------------------------------------------------------------------->
+        <div data-role="page" id="profile" style="background: url('backgrounds/f.jpg') repeat;">
+            <div data-role="header" data-theme="a">
+                <h1 class="ui-title" role="heading">Profile</h1>
+                <a href="#userAccount" data-rel="popup"  data-icon="arrow-d" data-transition="slide" data-position-to="window" data-role="button"  class="ui-btn-right">Account</a>
+            </div>
+            <div data-role="popup" id="userAccount" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0"> <span class="welcomeTxtH2"> Using App As :-</span>
+                <h3 class="emailPanel"><span id="loggedInBuddyNamePanel1"></span></h3>
+                <span id="loggedInBuddyEmailPanel1" class="adminPanel"></span> <a href="#notificationsPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Notifications</a> <a href="#editProfile" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Manage Account</a> <a href="#viewAllFriends" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" >Friends</a> <a href="#" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="backToGroups();">Groups</a> <a href="#getRequestPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Friend Requests</a> <a href="#viewAllPhotos" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Photos</a> <a href="javascript:void(0);" data-icon="delete" data-mini="true"  data-role="button" data-theme="a" onClick="logOut();">Logout</a> </div>
+            <div class="tweetPageContent">
+                <table width="15%" border="0" align="center" cellpadding="2" cellspacing="2" id="tweetPageContentn">
+                    <tr>
+                        <td colspan="2" align="center"><a href="#" class="ui-link"> <img src="profilePic/boy.png" alt="Profile image" name="myprofilepic" border="0" class="profileImage"  id="myprofilepic"> </a>
+                            <h3><span id="ppName"></span></h3></td>
+                    </tr>
+                    <tr data-role="fieldcontain">
+                        <td width="53%" align="right" nowrap><label for="buddyDetails_city"><b>City :</b></label></td>
+                        <td width="47%" align="left"><span id="buddyDetails_city" > </span> </td>
+                    </tr>
+                    <tr  data-role="fieldcontain">
+                        <td align="right" nowrap><label for="buddyDetails_mobNo"><b>Mobile :</b></label></td>
+                        <td align="left"><span id="buddyDetails_mobNo" ></span></td>
+                    </tr>
+                    <tr data-role="fieldcontain">
+                        <td align="right"><label for="buddyDetails_sex"><b>Sex :</b> </label></td>
+                        <td align="left"><span id="buddyDetails_sex" ></span></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div data-role="popup" id="noFriendsInGroupForSharingPopup" data-transition="flow" data-position-to="window" class="ui-content" data-theme="a">
+                <p>No Friends Found In this Group. <br>Click <b><i>Friends</i></b> Button to Add Friends In This Group.</p>
+            </div>
+            <br>
+            <div data-role="content">
+                <div data-role="fieldcontain">
+                    <label for="createNotificationBox"></label>
+                    <textarea cols="40" rows="8" placeholder="What U Want To Share...?" name="messageForFriend" id="createNotificationBox"/></textarea>
+                    <div data-role="fieldcontain">
+                        <label for="select-choice-8" class="select">Share With: </label>
+                        <select name="select-choice-8" id="selectGroup_list" class="mySelect" data-native-menu="false">
+                            <optgroup label="Share With">
+                                <option value="Friends">Friends</option>
+                            </optgroup>
+                            <optgroup label="Groups">
+                                <option></option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <a href="javascript:void(0);" data-icon="delete" data-mini="true"  data-role="button" data-theme="a" onClick="createNote();">Submit</a> </div>
+                <a href="javascript:void(0);" data-icon="delete" data-mini="true"  data-role="button" data-theme="a" onClick="gamePage();">Game</a> </div>
+            <div data-role="popup" id="noFriendsToSharePopUp" data-transition="slideDown" data-position-to="origin" class="ui-content" data-theme="a">
+                <p>There Are No Friends In your Profile for Sharing.<br> Please Send Friend Requests To Make Friends.</p>
+            </div>
+        </div>
+        <div data-role="footer" > </div>
+        <!-- /footer -->
+    </div>
+
+    <!-------------------------------------------------------------- /GET FRIEND REQUESTS PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id="getRequestPage" data-add-back-btn="true" data-back-btn-text="Back">
+        <div data-role="header" data-position="inline" data-theme="a">
+            <h1>Friend Request</h1>
+            <a href="#profile" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a">Back</a> 
+            <a href="#userAccount2" data-rel="popup"  data-icon="arrow-d" data-transition="slide" data-position-to="window" data-role="button"  class="ui-btn-right">Account</a>
+        </div>
+        <div data-role="popup" id="userAccount2" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+            <span class="welcomeTxtH2"> Using App As :-</span>
+            <h3 class="emailPanel"><span id="loggedInBuddyNamePanel2"></span></h3>
+            <span id="loggedInBuddyEmailPanel2" class="adminPanel"></span>
+            <a href="#profile" data-icon="home" data-mini="true" data-transition="slide" rel="external"  data-role="button" data-theme="a">Home</a>
+            <a href="#notificationsPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Notifications</a>
+            <a href="#editProfile" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Manage Account</a>
+            <a href="#viewAllFriends" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" >Friends</a>
+            <a href="#" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="backToGroups();">Groups</a>
+            <a href="#getRequestPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="b">Friend Requests</a>
+            <a href="#viewAllPhotos" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Photos</a>
+            <a href="javascript:void(0);" data-icon="arrow-u" data-mini="true"  data-role="button" data-theme="a" onclick="logOut();">Logout</a>
+        </div>
+        <div data-role= "content">
+            <div data-demo-html="true">
+                <ul data-role="listview" id="friendRequest_list" data-split-icon="gear" data-split-theme="d" data-inset="true">
+                </ul>
+            </div>
+            <div data-role="popup" id="confirmRequestPopUp">
+                <div data-role="header" data-theme="a" class="ui-corner-top">
+                    <h1>Action</h1>
+                </div>
+                <div data-role="content" data-theme="a" class="ui-corner-bottom ui-content">
+                    <h3 class="ui-title">Do you know this person?</h3>
+                    <p>If yes, then <b>Accept</b>. Otherwise <b>Reject</b> the friend request.</p>
+                    <a href="javascript:void(0);" data-role="button" data-inline="true" data-theme="f" onClick="acceptRequest();">Accept</a> <a href="javascript:void(0);" data-role="button" data-inline="true" data-theme="f" onClick="rejectRequest();">Reject</a></div>
+            </div>
+            <span id="requestsNotFound" style="display: none;">
+                <label>
+                    <h1><b>No New Requests</b></h1>
+                </label>
+            </span>
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /FRIEND REQUEST OPTIONS PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id="confirmRequest" data-add-back-btn="true" data-back-btn-text="Back">
+        <div data-role="header" data-theme="a" class="ui-corner-top">
+            <h1>Action</h1>
+        </div>
+        <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+            <h3 class="ui-title">Do you know this person?</h3>
+            <p>If yes, then <b>Accept</b>. Otherwise <b>Reject</b> the friend request.</p>
+            <a href="javascript:void(0);" data-role="button" data-inline="true" data-theme="f" onClick="acceptRequest();">Accept</a> <a href="javascript:void(0);" data-role="button" data-inline="true" data-theme="f" onClick="rejectRequest();">Reject</a> <a href="javascript:void(0);" data-role="button" data-inline="true" data-rel="back" data-theme="a">Cancel</a> </div>
+    </div>
+    <!-------------------------------------------------------------- /FRIEND PROFILE PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id="friendProfile" style="background: url('backgrounds/i.jpg') repeat;">
+        <div data-role="header" data-theme="a">
+            <h1 class="ui-title" role="heading"><span id="dostName"></span></h1>
+            <div class="ui-btn-right" data-role="controlgroup" data-type="horizontal"> <a href="javascript:void(0);" data-role="button" data-theme= "a" id="sendRequestBtn" onClick="sendFriendRequest();" >Send Friend Request</a>
+                <a href="#userAccount3" data-rel="popup"  data-icon="arrow-d" data-transition="slide" data-position-to="window" data-role="button">Account</a>
+
+            </div>
+        </div>
+
+
+        <div data-role="popup" id="userAccount3" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">        
+
+            <span class="welcomeTxtH2"> Using App As :-</span>
+            <h3 class="emailPanel"><span id="loggedInBuddyNamePanel3"></span></h3>
+            <span id="loggedInBuddyEmailPanel3" class="adminPanel"></span>
+            <a href="#profile" data-icon="home" data-mini="true" data-transition="slide"  data-role="button" rel="external" data-theme="a">Home</a>
+            <a href="#notificationsPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Notifications</a>
+            <a href="#editProfile" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Manage Account</a>
+            <a href="#viewAllFriends" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" >Friends</a>
+            <a href="#" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="backToGroups();">Groups</a>
+            <a href="#getRequestPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Friend Requests</a>
+            <a href="#viewAllPhotos" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Photos</a>
+            <a href="javascript:void(0);" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onclick="logOut();">Logout</a>
+        </div>
+        <div data-role="content">
+            <div data-role="popup" id="friendRequestAlreadySendedPopup" data-transition="slideDown" data-position-to="origin" class="ui-content" data-theme="a">
+                <p>Friend Request Is Already Sent To This Person.</p>
+            </div>
+            <div data-role="popup" id="successSendFriendRequestPopup" data-transition="pop" data-position-to="origin" class="ui-content" data-theme="a">
+                <p>Friend Request Is Successfully Sent To This Person.</p>
+            </div>
+            <div data-role="popup" id="alreadyFriendPopup" data-transition="slideDown" data-position-to="origin" class="ui-content" data-theme="a">
+                <p>This Person Is Already Your <b>Friend</b>, No need To Send <b>Friend Request</b>.</p>
+            </div>
+            <div data-role="popup" id="pendingForApprovalPopUp" data-transition="slideDown" data-position-to="origin" class="ui-content" data-theme="a">
+                <p>This Person Was Already Sent You A <b>Friend Request</b>, Check Your <b>Friend Requests</b> Tab.</p>
+            </div>
+            <div class="tweetPageContent">
+                <table width="15%" border="0" align="center" cellpadding="2" cellspacing="2" id="tweetPageContentn">
+                    <tr>
+                        <td colspan="2" align="center"><a href="#" class="ui-link"> <img src="profilePic/boy.png" alt="Profile image" name="myFriendprofilepic" border="0" class="profileImage"  id="myFriendprofilepic"> </a>
+                            <h3><span id="friendsPPName"></span></h3></td>
+                    </tr>
+                    <tr data-role="fieldcontain">
+                        <td width="53%" align="right" nowrap><label for="buddyDetails_city"><b>City :</b></label></td>
+                        <td width="47%" align="left"><span id="friendsDetails_city" > </span> </td>
+                    </tr>
+                    <tr  data-role="fieldcontain">
+                        <td align="right" nowrap><label for="buddyDetails_mobNo"><b>Mobile :</b></label></td>
+                        <td align="left"><span id="friendsDetails_mobNo" ></span></td>
+                    </tr>
+                    <tr data-role="fieldcontain">
+                        <td align="right"><label for="buddyDetails_sex"><b>Sex :</b> </label></td>
+                        <td align="left"><span id="friendsDetails_sex" ></span></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <br>
+        </div>
+        <div data-role="footer" > </div>
+        <!-- /footer -->
+    </div>
+    <!-------------------------------------------------------------- /ALL FRIENDS PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id="viewAllFriends">
+        <div data-role="header" class="header" data-theme="a" >
+            <h1>Friends</h1>
+            <a href="#profile" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a">Back</a>
+            <div class="ui-btn-right" data-role="controlgroup" data-type="horizontal"> <a href="#viewAllAppUsers" data-mini="true" data-role="button"  data-icon="grid">All Users</a>
+                <a href="#userAccount4" data-rel="popup"  data-icon="arrow-d" data-transition="slide" data-position-to="window" data-role="button" data-mini="true">Account</a>
+            </div>
+
+
+        </div>
+        <div data-role="popup" id="userAccount4" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+            <span class="welcomeTxtH2"> Using App As :-</span>
+            <h3 class="emailPanel"><span id="loggedInBuddyNamePanel4"></span></h3>
+            <span id="loggedInBuddyEmailPanel4" class="adminPanel"></span>
+            <a href="#profile" data-icon="home" data-mini="true" data-transition="slide" rel="external"  data-role="button" data-theme="a">Home</a>
+            <a href="#notificationsPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Notifications</a>
+            <a href="#editProfile" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Manage Account</a>
+            <a href="#viewAllFriends" data-icon="grid" data-mini="true"  data-role="button" data-theme="b" >Friends</a>
+            <a href="#" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="backToGroups();">Groups</a>
+            <a href="#getRequestPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Friend Requests</a>
+            <a href="#viewAllPhotos" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Photos</a>
+            <a href="javascript:void(0);" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onclick="logOut();">Logout</a>
+        </div>
+        <div data-role= "content"> <span id="friendsNotFound" style="display: none">
+                <div data-role="fieldcontain">
+                    <label for="btnBtn1">
+                        <h1><b>No Friends Found. <br>
+                                Click to <a href="#viewAllAppUsers" data-mini="true" data-role="button" id="btnBtn1"  data-icon="grid">Add Friends</a> To Search For New Friends. </b></h1>
+                    </label>
+                </div>
+            </span>
+            <ul data-role="listview" id="Friends_list" data-split-icon="gear" data-split-theme="d" data-inset="true">
+            </ul>
+            <div data-role="popup" id="friendListPopUp">
+                <div data-role="header" data-theme="a" class="ui-corner-top">
+                    <h1 class="ui-title">Groups</h1>
+                </div>
+                <div data-role="content" data-theme="a" class="ui-corner-bottom ui-content">
+                    <ul data-role="listview" id="group_list" data-split-icon="gear" data-split-theme="d" >
+                    </ul>
+                    <a href="#createGroupPopUp" data-rel="popup" data-position-to="origin" data-transition="flow"  data-mini="true" data-role="button"  data-icon="grid">Create Group</a> </div>
+            </div>
+            <div data-role="popup" id="createGroupPopUp">
+                <div data-role="header" data-theme="a" class="ui-corner-top">
+                    <h1 class="ui-title">Create Group</h1>
+                </div>
+                <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                    <div data-role="fieldcontain">
+                        <label for="buddyGroupName">Name:</label>
+                        <input type="text" placeholder="Group Name..." name="friendName" id="buddyGroupName" value="" />
+                    </div>
+                    <a href="#" data-mini="true" data-role="button"  data-icon="grid" onClick="createBuddyGroup();">Create</a> </div>
+            </div>
+            <div data-role="popup" id="successfullyAdded" data-transition="pop" data-position-to="origin" class="ui-content" data-theme="a">
+                <p>Successfully Added To Group.</p>
+            </div>
+            <div data-role="popup" id="alreadyAdded" data-transition="pop" data-position-to="origin" class="ui-content" data-theme="a">
+                <p>This Friend Is Already Added To This Group.</p>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /ALL APP USERS PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id="viewAllAppUsers">
+        <div data-role="header" class="header" data-theme="a">
+            <h1>All App Users</h1>
+            <a href="#viewAllFriends" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a">Back</a> 
+            <a href="#userAccount5" data-rel="popup"  data-icon="arrow-d" data-transition="slide" data-position-to="window" data-role="button" data-mini="true"  class="ui-btn-right">Account</a>
+        </div>
+
+        <div data-role="popup" id="userAccount5" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+            <span class="welcomeTxtH2"> Using App As :-</span>
+            <h3 class="emailPanel"><span id="loggedInBuddyNamePanel5"></span></h3>
+            <span id="loggedInBuddyEmailPanel5" class="adminPanel"></span>
+            <a href="#profile" data-icon="home" data-mini="true" data-transition="slide" rel="external"  data-role="button" data-theme="a">Home</a>
+            <a href="#notificationsPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Notifications</a>
+            <a href="#editProfile" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Manage Account</a>
+            <a href="#viewAllFriends" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" >Friends</a>
+            <a href="#" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="backToGroups();">Groups</a>
+            <a href="#getRequestPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Friend Requests</a>
+            <a href="#viewAllPhotos" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Photos</a>
+            <a href="javascript:void(0);" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onclick="logOut();">Logout</a>
+        </div>
+        <div data-role= "content">
+            <div data-demo-html="true">
+                <ul data-role="listview" id="appUsers_list"  data-split-icon="gear" data-split-theme="a" data-filter="true" data-filter-placeholder="Type Friends name..." data-inset="true">
+                </ul>
+            </div>
+            <div data-role="popup" id="successSendFriendRequestPopupInAllFriends" data-transition="pop" data-position-to="origin" class="ui-content" data-theme="a">
+                <p>Friend Request Is Successfully Sent To This Person.</p>
+            </div>
+            <div data-role="popup" id="allAppUsersPopUp">
+                <div data-role="header" data-theme="a" class="ui-corner-top">
+                    <h1>Action</h1>
+                </div>
+                <div data-role="content" data-theme="a" class="ui-corner-bottom ui-content">
+                    <h3 class="ui-title">Do you know this person?</h3>
+                    <p>If yes, then <b>Send</b> friend request.</p>
+                    <a href="javascript:void(0);" data-role="button" data-inline="true" data-theme="f" onClick="sendFriendRequestViaAllUsers();">Send Friend Request</a><a href="javascript:void(0);" data-role="button" data-inline="true" data-mini="true" data-rel="back" data-icon="arrow-r" data-theme="a">Back</a> </div>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /LIST OF  ALL GROUPS --------------------------------------------------------------------------->
+    <div data-role="page" id="allGroupsPage" style="background: url('backgrounds/g.jpg') repeat;">
+        <div data-role="header" data-theme="a" class="ui-corner-top">
+            <h1 class="ui-title">Groups</h1>
+            <a href="#profile" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a">Back</a>
+            <div class="ui-btn-right" data-role="controlgroup" data-type="horizontal"><a href="#createGroupPopUp2" data-role="button" data-rel="popup" data-position-to="origin" data-transition="flow" data-icon="plus" data-theme= "a" >Create</a> 
+                <a href="#userAccount5" data-rel="popup"  data-icon="arrow-d" data-transition="slide" data-position-to="window" data-role="button" data-mini="true">Account</a>
+            </div>
+
+        </div>
+        <div data-role="popup" id="userAccount5" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+            <span class="welcomeTxtH2"> Using App As :-</span>
+            <h3 class="emailPanel"><span id="loggedInBuddyNamePanel6"></span></h3>
+            <span id="loggedInBuddyEmailPanel6" class="adminPanel"></span>
+            <a href="#profile" data-icon="home" data-mini="true" data-transition="slide" rel="external"  data-role="button" data-theme="a">Home</a>
+            <a href="#notificationsPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Notifications</a>
+            <a href="#editProfile" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Manage Account</a>
+            <a href="#viewAllFriends" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" >Friends</a>
+            <a href="#" data-icon="grid" data-mini="true"  data-role="button" data-theme="b">Groups</a>
+            <a href="#getRequestPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Friend Requests</a>
+            <a href="#viewAllPhotos" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Photos</a>
+            <a href="javascript:void(0);" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onclick="logOut();">Logout</a>
+        </div>
+
+        <div data-role="popup" id="noFriendsFoundPopup" data-transition="flow" data-position-to="window" class="ui-content" data-theme="a">
+            <p>No Friends Found In this Group. Click Friend's Button to Add Friends.</p>
+        </div>
+
+        <div data-role="popup" id="createGroupPopUp2">
+            <div data-role="header" data-theme="a" class="ui-corner-top">
+                <h1 class="ui-title">Create Group</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <div data-role="fieldcontain">
+                    <label for="buddyGroupName2">Name:</label>
+                    <input type="text" placeholder="Group Name..." name="friendName" id="buddyGroupName2" value="" />
+                </div>
+                <a href="#" data-mini="true" data-role="button"  data-icon="grid" onClick="createBuddyGroup2();">Create</a> </div>
+        </div>
+        <div data-role= "content">
+            <div data-role="content" data-theme="a" class="ui-corner-bottom ui-content">
+                <ul data-role="listview" id="allGroups_list"   data-inset="true">
+                </ul>
+            </div>
+        </div>
+        <span id="groupsNotFound" style="display: none;">
+            <div data-role="fieldcontain">
+                <label for="btnBtn">
+                    <h1><b>No Groups Found. Click to Create new Group </b></h1>
+                </label>
+                <a href="#createGroupPopUp2" data-rel="popup" data-position-to="origin" data-transition="flow" id="btnBtn" data-theme="a" data-role="button" data-inline ="true" data-mini="true" style="padding:4" ></a> </div>
+        </span> </div>
+    <!-------------------------------------------------------------- /LIST OF Friends IN A GROUP --------------------------------------------------------------------------->
+    <div data-role="page" id="friendsInGroupPage" data-add-back-btn="true" data-back-btn-text="Back" style="background: url('backgrounds/o.jpg') repeat;">
+        <div data-role="header" data-theme="a" class="ui-corner-top">
+            <h1 class="ui-title">Groups</h1>
+            <a href="#" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a" onClick="backToGroups();">Back</a> </div>
+        <div data-role= "content">
+            <div data-role="content" data-theme="a" class="ui-corner-bottom ui-content">
+                <ul data-role="listview" id="friendsInGroup_list"   data-inset="true">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /VIEW ALL PHOTOS PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id="viewAllPhotos" data-add-back-btn="true" data-back-btn-text="Back">
+        <div data-role="header" data-theme="a" class="ui-corner-top">
+            <h1 class="ui-title">Photos</h1>
+            <a href="#" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a" onclick="backToProfile();">Back</a>
+        </div>
+        <div data-role= "content">
+            <div data-role="content" data-theme="a" class="ui-corner-bottom ui-content">
+                <div class="content-primary">
+                    <ul id="iGallery">
+                    </ul>
+                </div>
+            </div>
+            <div data-role="popup" id="avatarChangePopUp">
+                <div data-role="header" data-theme="a">
+                    <h1 class="ui-title">Change</h1>
+                </div>
+                <div data-role="content" data-theme="a">
+                    <h3 class="ui-title">Update Profile Picture?</h3>
+                    <a href="javascript:void(0);" data-role="button" data-inline="true" data-theme="f" data-icon="check" onClick="updatedAvatar();">Update</a>
+                    <a href="#viewAllPhotos"   data-mini="true" data-inline="true" data-rel="back" data-role="button"  data-icon="delete">Cancel</a> </div>
+            </div>
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /NOTIFICATIONS PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id="notificationsPage" data-add-back-btn="true" data-back-btn-text="Back" style="background: url('backgrounds/n.jpg') repeat;">
+        <div data-role="header" data-theme="a" class="ui-corner-top">
+            <h1 class="ui-title">Notifications</h1>
+            <a href="#profile" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a">Back</a> </div>
+        <div data-role= "content">
+            <ul data-role="listview" id="notificationBar" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+            </ul>
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /GAME HOME PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id = "gameHomePage">
+        <div data-role="header" data-position="fixed">
+            <h1>Game</h1>
+        </div> 
+        <div data-role="content">
+            <div id = "title">
+                <img src = "logo.png" width="300px" height="300px" />
+            </div>	
+            <a href="#gamePlayPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="gameInit();">Play Game</a>
+            <a href="#howToPlayPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Instructions</a>
+            <a href="#scoreBoardPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">High Scores</a>
+            <a href="#groupScoreBoardPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">GroupWise HighScores</a>
+            <a href="javascript:void(0);" data-icon="home" data-mini="true" data-transition="slide" rel="external"  data-role="button" data-theme="a" onclick="quitGame();">Quit</a>
+        </div> 
+        <div data-role="footer" data-position="fixed">
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /PLAY GAME PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id = "gamePlayPage" style="background: url('backgrounds/e.jpg') repeat;">
+        <div data-role="header" data-position="fixed">
+            <h1>The game</h1>
+            <a href="#gameHomePage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Main Menu</a>
+        </div> 
+        <div data-role="content">
+            <a href="javascript:void(0);" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onclick="higherCard();">Higher Card</a>
+            <div id = "thecardcontainer">
+                <div id = "thecard"></div>
+            </div>
+            <a href="javascript:void(0);" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onclick="lowerCard();">Lower Card</a>
+            <fieldset class="ui-grid-a">
+                <div class="ui-block-a">
+                    <div id = "currentscore">
+                    </div>
+                </div>
+                <div class="ui-block-b">
+                    <div id = "currentlives">
+                    </div>
+                </div>	   
+            </fieldset>
+        </div> 
+        <div data-role="footer" data-position="fixed">
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /GAME OVER PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id = "gameGameEndPage">
+        <div data-role="header" data-position="fixed">
+            <h1>Game over</h1>
+        </div>
+        <div data-role="content"> 
+            <div id = "gameGameEndPage">
+                <div id = "gameovercontent">
+                    game over
+                </div>
+                <fieldset class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div id = "yourscore"></div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div id = "yourbestscore"></div>
+                    </div>	   
+                </fieldset>
+                <div data-role="popup" id="shareGameScorePopUp">
+                    <div data-role="header" data-theme="a">
+                        <h1 class="ui-title">Share</h1>
+                    </div>
+                    <div data-role="content" data-theme="a">
+                        <h3 class="ui-title">Want To Share Score With Your Friend ?</h3>
+                        <div data-role="fieldcontain">
+                            <select name="select-choice-8" id="selectFriendForSharingScore" class="selectFriend" data-native-menu="false">
+                                <option value="All Friends">All Friends</option>
+                            </select>
+                        </div>
+                        <a href="javascript:void(0);" data-role="button" data-inline="true" data-theme="f" data-icon="check" onClick="shareScoreWith();">Share</a>
+                        <h1>OR</h1>
+                        <h3 class="ui-title">Want To Share Score With Group ?</h3>
+                        <div data-role="fieldcontain">
+                            <select name="select-choice-8" id="selectGroupForSharingScore" class="selectGroup" data-native-menu="false">
+                                <option>Select Group</option>
+                            </select>
+                        </div>
+                        <a href="javascript:void(0);" data-role="button" data-inline="true" data-theme="f" data-icon="check" onClick="shareScoreWithFriendsInGroup();">ShareWithGroup</a>
+                        <a href="#gameGameEndPage"   data-mini="true" data-inline="true" data-role="button"  data-icon="delete">Cancel</a> </div>
+                </div>
+                <a href="#shareGameScorePopUp" data-rel="popup" data-position-to="origin" data-transition="flow" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Share Score</a>
+                <a href="#gamePlayPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="gameInit();">New Game</a>
+                <a href="#gameHomePage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Main Menu</a>
+            </div>	
+        </div> 
+        <div data-role="popup" id="noFriendsInGroupToShareScorePopUp" data-transition="slideDown" data-position-to="origin" class="ui-content" data-theme="a">
+            <p>There Are No Friends In This Group.<br> Please Select Another Group <b>OR</b> Add Friends To This Group.</p>
+        </div>
+        <div data-role="footer" data-position="fixed">
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /INSTRUCTIONS PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id = "howToPlayPage">
+        <div data-role="header" data-position="fixed">
+            <h1>How to play</h1>
+        </div>
+        <div data-role="content"> 
+            <div id = "instructions">
+                <p>Guess if next card is higher or lower than the current one.</p>
+                <p>Aces are the lowest.</p>
+                <p>Right guess = +1 point</p>
+                <p>Wrong guess = -1 life</p>
+                <p>Next card same value = +1 life</p>
+                <p>Next card identical = +3 lives</p>
+            </div>
+            <a href="#gamePlayPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="gameInit();">New Game</a>
+            <a href="#gameHomePage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Home</a>
+        </div> 
+        <div data-role="footer" data-position="fixed">
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /HIGHEST SCORES PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id = "scoreBoardPage">
+        <div data-role="header" data-position="fixed">
+            <h1>High Scores</h1>
+        </div>
+        <div data-role="content"> 
+            <ul data-role="listview" id = "highestScorerBar" data-theme="a" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+            </ul>
+            <a href="#gamePlayPage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="gameInit();">New Game</a>
+            <a href="#gameHomePage" data-icon="grid" data-mini="true"  data-role="button" data-theme="a">Main Menu</a>
+        </div> 
+        <div data-role="footer" data-position="fixed">
+
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /HIGHEST SCORES GROUPS PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id = "groupScoreBoardPage">
+        <div data-role="header" data-position="fixed">
+            <h1>Select Group</h1>
+            <a href="#gameHomePage" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a">Back</a> 
+        </div>
+        <div data-role="content"> 
+            <ul data-role="listview" id="highestScorerGroups_list">
+                <li></li>
+            </ul>
+            <div data-role="popup" id="noScorersFoundInGroupPopup" data-transition="flow" data-position-to="window" class="ui-content" data-theme="a">
+                <p>No <b><i>Players</i></b> Found In this Group. Go To Your <b>Profile</b> To Add Friends In This Group.</p>
+            </div>
+        </div> 
+        <div data-role="footer" data-position="fixed">
+        </div>
+    </div>
+
+    <!-------------------------------------------------------------- /HIGHEST SCORERS IN GROUP PAGE --------------------------------------------------------------------------->
+    <div data-role="page" id = "groupScoreBoardTopScorersPage">
+        <div data-role="header" data-position="fixed">
+            <h1>High Scores</h1>
+            <a href="#" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a" onClick="backToScorerGroups();">Back</a> 
+        </div>
+        <div data-role="content"> 
+            <ul data-role="listview" id = "highestScorerInGroupBar" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+            </ul>
+        </div> 
+        <div data-role="footer" data-position="fixed">
+        </div>
+    </div>
+    <!-------------------------------------------------------------- /MESSAGING PAGE--------------------------------------------------------------------------->
+    <div data-role="page" id = "messagingPage">
+        <div data-role="header" data-position="fixed">
+            <h1>Messaging</h1>
+            <a href="#" data-transition= "slide" data-icon="arrow-l" data-role="button"  data-theme="a" onClick="backToScorerGroups();">Back</a> 
+        </div>
+        <div data-role="content"> 
+
+            <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                <label for="select-choice-6" class="select ui-select">Select Friend:</label>
+                <div class="ui-select"><select name="select-choice-6" id="selectFriendFromList" class="friendNameForMessaging" data-native-menu="false" tabindex="-1">
+                        <option value="choose-one" data-placeholder="true">Select Friend...</option>
+                    </select></div>
+            </div>
+
+            <div id = "newMessageBar"></div>
+
+
+            <div id="messageBoxDiv" class="">
+                <textarea cols="40" rows="8" placeholder="Write Your Message Here...?" name="message" id="messageBox"/></textarea>
+                <a href="javascript:void(0);" data-icon="grid" data-mini="true"  data-role="button" data-theme="a" onClick="sendMessageToBuddy();">Post</a>
+            </div>    
+        </div> 
+        <div data-role="footer" data-position="fixed">
+
+        </div>
+    </div>
+
+</body>
+</html>

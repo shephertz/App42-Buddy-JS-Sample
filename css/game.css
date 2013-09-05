@@ -1,0 +1,66 @@
+#thecardcontainer{
+	height:123px;
+}
+/*.ui-page {
+ 	background-image:url('back.jpg');
+}*/
+input.ui-input-text{
+	width:200px;
+	text-align:center;
+}
+#theform{
+	text-align:center;
+	width:214px;
+	margin:20px auto;
+}
+#thecard{
+	background-image:url('cards.png');
+	width:79px;
+	height:123px;
+	margin:0px auto;
+}
+#currentscore,#yourscore{
+     font:normal 18px arial;
+     color:#ffb908;
+     text-shadow: 1px 1px 1px #000000;
+     background-color:#076c0c;
+     padding:5px 10px;
+     margin:5px 10px;
+     border-radius: 15px;
+}
+#currentlives,#yourbestscore{
+     font:normal 18px arial;
+     color:#ffb908;
+     text-shadow: 1px 1px 1px #000000;
+     background-color:#076c0c;
+     padding:5px 10px;
+     margin:5px 10px;
+     border-radius: 15px;
+     text-align:right;
+}
+#gameovercontent{
+	font:bold 32px arial;
+     color:#ffffff;
+     text-shadow: 1px 1px 1px #000000;
+     background-color:#076c0c;
+     padding:40px 10px;
+     margin:0px 0px 20px 0px;
+     border-radius: 40px;
+     text-align:center;
+     text-transform:uppercase;
+}
+#title{
+	text-align:center;
+	margin:0px 0px 30px 0px;
+}
+#instructions{
+	color:#ffffff;
+     text-shadow: 1px 1px 1px #000000;
+     background-color:#076c0c;
+     padding:5px 10px;
+     margin:5px 10px 20px 10px;
+     border-radius: 15px;		
+}
+#instructions p{
+	margin:5px;
+}		

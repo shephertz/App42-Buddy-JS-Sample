@@ -1,0 +1,22 @@
+.feedback {
+padding: 0.69em 5px;
+border-bottom: 1px solid #cfcfcf;
+}
+
+.feedback-indent {
+margin-left: 58px;
+margin-right: 1.5em;
+}
+
+.content img {
+border: 1px solid #cfcfcf;
+padding: 3px;
+}
+
+.avatar {
+float: left;
+margin: 0 1em 0 0.23em;
+padding: 2px;
+background: #fff;
+border: 1px solid #cfcfcf;
+}
