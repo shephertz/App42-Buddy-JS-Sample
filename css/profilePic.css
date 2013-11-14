@@ -21,13 +21,13 @@ body {
     height: 83%;
     margin: 30px auto 20px auto;
     border-radius: 10px;
-    border: 4px solid #627188;
-    background: 			#354866;
-    color: 					#fff;
+    border: 0px solid rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0);
+    color: #fff;
     text-shadow: 0 1px 0 #000;
     font-weight: normal;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#304360), to(#3a4e6c));
-    background-image: -webkit-linear-gradient(top, #304360, #3a4e6c);
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
     background-image:    -moz-linear-gradient(top, #304360, #3a4e6c);
     background-image:     -ms-linear-gradient(top, #304360, #3a4e6c);
     background-image:      -o-linear-gradient(top, #304360, #3a4e6c);

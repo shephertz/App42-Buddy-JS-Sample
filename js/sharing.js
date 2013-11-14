@@ -15,7 +15,6 @@ function createNote(){
         var owner = document.getElementById(shareWithName).innerHTML;
         shareNotificationWithFriendsInGroup (shareWithName, owner)   // If LoggedIn User Wants To Share Notification With his/her Particular Group Members.
     }
-    
 }
 
 /* Create Notification,

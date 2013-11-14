@@ -53,81 +53,85 @@ function register(){
         ReloadPage();
     }
     else{
-        try{
-            buddy.createUser(userName, pwd, email,{        // Creating New User.
-                success: function(object) {
-                    buddy.authenticate(userName, pwd, {        // Authenticate User Through Registration.
-                        success: function(object) {
-                            var authObj = JSON.parse(object)
-                            var sessionId = authObj.app42.response.users.user.sessionId;
-                            buddy.setSessionId(sessionId);
-                            var logInName = authObj.app42.response.users.user.userName;
-                            $.session.set('loggedInName',logInName)         // Storing LoggedIn UserName In Local Storage Through Register.
-                            session.setAttribute(sessionId,"loggedInName", logInName,{
-                                success: function(object) {
-                                    session.getAttribute(sessionId,"loggedInName",{
-                                        success: function(object) {
-                                            var detailsObj = JSON.parse(object)
-                                            var loggedInName = detailsObj.app42.response.session.attributes.attribute.value;
-                                            var loggedInSessionId = detailsObj.app42.response.session.sessionId;
-                                            $.session.set('loggedInSessionId', loggedInSessionId);       // Storing LoggedIn User SessionId In Local Storage Through Register.
-                                            buddy.setFirstName(firstName);
-                                            buddy.setLastName(lastName);
-                                            buddy.createOrUpdateProfile(userName,{                   // Update User Profile, By Setting his/her FirstName & LastName.
-                                                success: function(object) {
-                                                    moreDetails(loggedInName, loggedInSessionId); // Calling New Function "moreDetails()",For Getting More Profile Details From User. 
-                                                },
-                                                error: function(error) {
+        buddy.createUser(userName, pwd, email,{        // Creating New User.
+            success: function(object) {
+                buddy.authenticate(userName, pwd, {        // Authenticate User Through Registration.
+                    success: function(object) {
+                        var authObj = JSON.parse(object)
+                        var sessionId = authObj.app42.response.users.user.sessionId;
+                        buddy.setSessionId(sessionId);
+                        var logInName = authObj.app42.response.users.user.userName;
+                        $.session.set('loggedInName',logInName)         // Storing LoggedIn UserName In Local Storage Through Register.
+                        session.setAttribute(sessionId,"loggedInName", logInName,{
+                            success: function(object) {
+                                session.getAttribute(sessionId,"loggedInName",{
+                                    success: function(object) {
+                                        var detailsObj = JSON.parse(object)
+                                        var loggedInName = detailsObj.app42.response.session.attributes.attribute.value;
+                                        var loggedInSessionId = detailsObj.app42.response.session.sessionId;
+                                        $.session.set('loggedInSessionId', loggedInSessionId);       // Storing LoggedIn User SessionId In Local Storage Through Register.
+                                        buddy.setFirstName(firstName);
+                                        buddy.setLastName(lastName);
+                                        buddy.createOrUpdateProfile(userName,{                   // Update User Profile, By Setting his/her FirstName & LastName.
+                                            success: function(object) {
+                                                moreDetails(loggedInName, loggedInSessionId); // Calling New Function "moreDetails()",For Getting More Profile Details From User. 
+                                            },
+                                            error: function(error) {
                                             
-                                                },
-                                                error: function(error) {
+                                            },
+                                            error: function(error) {
                            
-                                                }
-                                            }); 
+                                            }
+                                        }); 
                                            
-                                        },
-                                        error: function(error) {
+                                    },
+                                    error: function(error) {
                            
-                                        }
-                                    });
+                                    }
+                                });
                              
-                                },
-                                error: function(error) {
+                            },
+                            error: function(error) {
                            
-                                }
-                            });
+                            }
+                        });
                        
-                        },
-                        error: function(error) {
+                    },
+                    error: function(error) {
                            
-                        }
-                    });         
-                },
-                error: function(error) {
-                    var errorObj = JSON.parse(error)
-                    var errorCode = errorObj.app42Fault.appErrorCode
+                    }
+                });         
+            },
+            error: function(error) {
+                var errorObj = JSON.parse(error)
+                var errorCode = errorObj.app42Fault.appErrorCode
                 
-                    if(errorCode == 2001){          // Showing Error Message For Existing UserName.
-                        $("#defaultLoader").hide();
-                        $.mobile.showPageLoadingMsg("a","UserName Already Exist / Please Try Again With Different Name !...", "b");
-                        setTimeout(function (){
-                            $.mobile.hidePageLoadingMsg();
-                        },5000)
-                    }
-                    else if(errorCode == 2005){    // Showing Error Message For Existing Email Id.
-                        $("#defaultLoader").hide();
-                        $.mobile.showPageLoadingMsg("a","EmailId Already Exist / Please Try Again With Different Email Id !...", "b");
-                        setTimeout(function (){
-                            $.mobile.hidePageLoadingMsg();
-                        },5000)
-                    }
-                    else{
-                        ReloadPage();
-                    }
+                if(errorCode == 2001){          // Showing Error Message For Existing UserName.
+                    $("#defaultLoader").hide();
+                    $.mobile.showPageLoadingMsg("a","UserName Already Exist / Please Try Again With Different Name !...", "b");
+                    setTimeout(function (){
+                        $.mobile.hidePageLoadingMsg();
+                    },5000)
                 }
-            }); 
-        }catch(App42Exception){
-        }
+                else if(errorCode == 2005){    // Showing Error Message For Existing Email Id.
+                    $("#defaultLoader").hide();
+                    $.mobile.showPageLoadingMsg("a","EmailId Already Exist / Please Try Again With Different Email Id !...", "b");
+                    setTimeout(function (){
+                        $.mobile.hidePageLoadingMsg();
+                    },5000)
+                }
+                else if(errorCode == 1401){    // Showing Error Message For Invalid API_KEY and SECRET_KEY.
+                    $("#defaultLoader").hide();
+                    $.mobile.showPageLoadingMsg("a","Please Enter a Valid API_KEY & SECRET_KEY in index.html !...", "b");
+                    setTimeout(function (){
+                        $.mobile.hidePageLoadingMsg();
+                    },5000)
+                }
+                else{
+                    ReloadPage();
+                }
+            }
+        }); 
     }
 }
 
@@ -191,7 +195,6 @@ function logIn(){
             $.mobile.hidePageLoadingMsg();
         },2000)
     }else {
-        try{
             buddy.authenticate(userName, pwd,{      // Authenticate User, Who was Already Created In function "register()".
                 success: function(object) {
                     var userAuthObj = JSON.parse(object)
@@ -205,19 +208,27 @@ function logIn(){
                     
                 },
                 error: function(error) {
-                    $("#defaultLoader").hide();
-                    $.mobile.showPageLoadingMsg("a","UserName/Password incorrect. Please try again !...", "a");
-                    setTimeout(function (){
-                        $.mobile.hidePageLoadingMsg();
-                    },4000)
+                    var errorObj = JSON.parse(error)
+                    var errorCode = errorObj.app42Fault.appErrorCode
+                
+                    if(errorCode == 2002){          // Showing Error Message For Existing UserName.
+                        $("#defaultLoader").hide();
+                        $.mobile.showPageLoadingMsg("a","UserName/Password incorrect. Please try again !...", "a");
+                        setTimeout(function (){
+                            $.mobile.hidePageLoadingMsg();
+                        },4000)
+                    }
+                    
+                    else if(errorCode == 1401){    // Showing Error Message For Invalid API_KEY and SECRET_KEY.
+                        $("#defaultLoader").hide();
+                        $.mobile.showPageLoadingMsg("a","Please Enter a Valid API_KEY & SECRET_KEY in index.html !...", "b");
+                        setTimeout(function (){
+                            $.mobile.hidePageLoadingMsg();
+                        },5000)
+                    }
                 }
             }
             ); 
-        }
-        catch(App42Exception){
-            $(".error").show();
-            $('#error').html(App42Exception.message);
-        }
     }
 }
 
@@ -226,7 +237,7 @@ function logIn(){
  *  By Using App42 UserService (getUser).
  */
 function getBuddy() {
-     $("#defaultAllPagesLoader").show();
+    $("#defaultAllPagesLoader").show();
     var buddy  = new App42User();
     var buddyNameThroughRegister  = $.session.get('loggedInName');        // Get LoggedIn UserName From Local Storage, If User Is Firstly Visit his/her Profile (Directly Through Registration).
     var buddyNameThroughLogin  = $.session.get('loggedInNameViaLogin');  // Get LoggedIn UserName From Local Storage, Through Login.
