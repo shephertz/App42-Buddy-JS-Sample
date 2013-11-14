@@ -16,7 +16,7 @@ _Features List :__
 7. Create Groups.
 8. Share Notifications with your friends And Groups who has use this app.
 9. Save User Score.
-10. LeadeBoards, i.e Global LeaderBoard, Friends LeaderBoard, LeaderBoard WithIn a Group.
+10. LeaderBoards, i.e Global LeaderBoard, Friends LeaderBoard, LeaderBoard WithIn a Group.
 11. Share your Score With Your Friends, Send Challenges To Your Friends For Beating Your Score.
 12. Support all mobile browsers and HTML5 compatible desktop browsers.
 
